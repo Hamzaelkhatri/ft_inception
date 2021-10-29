@@ -1,0 +1,24 @@
+FROM debian:buster
+
+RUN apt-get update -y
+
+RUN apt-get upgrade -y 
+
+RUN apt-get install curl -y
+
+RUN apt-get install php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip -y
+
+
+RUN apt-get install wget -y
+RUN adduser www
+RUN usermod -a -G 'www' www
+RUN mkdir /www
+RUN chown -R www:www /www
+
+RUN  cd /www &&\
+    wget http://wordpress.org/latest.tar.gz &&\
+    tar -xzvf latest.tar.gz &&\
+    rm latest.tar.gz wordpress/wp-config-sample.php
+
+
+
