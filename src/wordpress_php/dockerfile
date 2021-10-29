@@ -30,4 +30,12 @@ COPY ./wp-config.php /www/wordpress/
 
 EXPOSE 9000
 
-CMD /etc/init.d/php-fpm7.2 start &> /null/dev
+RUN apt install openrc supervisor -y
+
+COPY ./supervisord.conf /etc/
+
+COPY ./stop.sh /tmp/stop.sh
+RUN chmod +x /tmp/stop.sh
+
+RUN service php7.3-fpm start
+CMD supervisord -c /etc/supervisord.conf
