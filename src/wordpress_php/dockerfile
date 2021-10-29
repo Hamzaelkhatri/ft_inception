@@ -24,11 +24,10 @@ RUN chown -R www:www /www
 RUN  cd /www &&\
     wget http://wordpress.org/latest.tar.gz &&\
     tar -xzvf latest.tar.gz &&\
-    rm latest.tar.gz wordpress/wp-config-sample.php.
+    rm latest.tar.gz 
 COPY ./wp-config.php /www/wordpress/
+
 
 EXPOSE 9000
 
-CMD rc-service php-fpm7 start &>/dev/null
-
-
+CMD /etc/init.d/php-fpm7.2 start &> /null/dev
