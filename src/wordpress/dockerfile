@@ -4,16 +4,7 @@ RUN apt-get update -y
 
 RUN apt-get upgrade -y 
 
-
-RUN apt-get install wget -y
-RUN mkdir -p /var/www && mkdir -p /var/www/html
-RUN  cd /var/www/html &&\
-    wget http://wordpress.org/latest.tar.gz &&\
-    tar -xzvf latest.tar.gz &&\
-    rm latest.tar.gz 
-
 EXPOSE 9000
-
 
 RUN apt install -y vim
 RUN apt install -y unzip
@@ -24,11 +15,12 @@ RUN mkdir -p /var/www/html
 RUN wget https://wordpress.org/latest.zip
 RUN unzip latest.zip
 RUN rm -rf latest.zip
-# RUN cp /wp-config.php ./var/www/html/wordpress
+RUN cp -rf /wordpress/* /var/www/html
 RUN service php7.3-fpm start
 RUN service php7.3-fpm stop
 COPY ./wp-config.php /var/www/html/wordpress/
 COPY ./www.conf /etc/php/7.3/fpm/pool.d/
 COPY ./php-fpm.conf /etc/php/7.3/fpm/
+COPY ./start.sh ./start.sh
 ENTRYPOINT ["bash","start.sh"]
 

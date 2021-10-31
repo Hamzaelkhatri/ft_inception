@@ -10,7 +10,7 @@ services:
         build:
             context: ./wordpress
         ports:
-            - 9000:9000
+            - '9000:9000'
         volumes:
             - wordpress_vol:/var/www/html
         restart: unless-stopped
@@ -22,7 +22,7 @@ services:
         env_file:
             - .env
         ports: 
-            - 443:443
+            - '443:443'
         volumes:
             - wordpress_vol:/var/www/html
         restart: unless-stopped
@@ -37,7 +37,7 @@ services:
               - MYSQL_USER=${MYSQL_USER}
         container_name: mariadb
         ports:
-            - 3306:3306
+            - '3306:3306'
         volumes:
             - mariadb_vol:/var/lib/mysql/
         networks:
@@ -49,11 +49,11 @@ volumes:
         driver_opts:
             type: 'none'
             o: 'bind'
-            device: '/home/hamza/data/wordpress'
+            device: '/home/kali/data/wordpress'
     mariadb_vol:
         driver: local
         driver_opts:
             type: 'none'
             o: 'bind'
-            device: '/home/hamza/data/mariadb'
+            device: '/home/kali/data/mariadb'
 
