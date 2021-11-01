@@ -3,17 +3,18 @@ networks:
     inception_net:
 services:
     wordpress:
+        depends_on: 
+            - mariadb
         networks:
             - inception_net
-        env_file:
-            - .env
+        env_file: .env
         build:
             context: ./wordpress
         ports:
             - '9000:9000'
         volumes:
             - wordpress_vol:/var/www/html
-        restart: unless-stopped
+        restart: always
     nginx:
         networks:
             - inception_net
@@ -25,16 +26,12 @@ services:
             - '443:443'
         volumes:
             - wordpress_vol:/var/www/html
-        restart: unless-stopped
+        restart: always
     mariadb:
         image: mariadb
+        env_file: .env
         build:
             context: ./mariadb
-            args:
-              - WP_DB_NAME=${WP_DB_NAME}
-              - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-              - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-              - MYSQL_USER=${MYSQL_USER}
         container_name: mariadb
         ports:
             - '3306:3306'
@@ -42,7 +39,7 @@ services:
             - mariadb_vol:/var/lib/mysql/
         networks:
             - inception_net
-        restart: unless-stopped
+        restart: always
 volumes:
     wordpress_vol:
         driver: local
