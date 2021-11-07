@@ -57,6 +57,33 @@ services:
         networks:
             - inception_net
         restart: always
+    ftp:
+        image: ftp
+        depends_on:
+            - wordpress
+        build:
+            context: ./ftp
+        container_name: ftp
+        ports:
+            - '21:21'
+        volumes:
+            - wordpress_vol:/home/helkhatr
+        networks:
+            - inception_net
+        restart: always
+    adminer:
+        image: adminer
+        build:
+            context: ./adminer
+        depends_on:
+            - wordpress
+        container_name: adminer
+        volumes:
+            - wordpress_vol:/var/www/html
+        networks:
+            - inception_net
+        restart: always
+
 volumes:
     wordpress_vol:
         driver: local
